@@ -44,12 +44,14 @@ export default {
     }
   },
   methods: {
-    onClickLeft() {},
+    onClickLeft() {
+      this.$router.back()
+    },
     async login() {
       const res = await login(this.username, this.password)
       this.$dialog({ message: `${res.data.description}` })
       if (res.data.body) {
-        localStorage.setItem('token', `Bearer ${res.data.body.token}`)
+        localStorage.setItem('token', res.data.body.token)
       }
     }
   }
