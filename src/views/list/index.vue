@@ -308,7 +308,7 @@ export default {
       console.log(data)
       this.list = data.body.list
 
-      if (this.list.length % 20 !== 0 && this !== 0) {
+      if (this.list.length % 20 !== 0 && this.list.length !== 0) {
         this.finished = true
       }
     },
