@@ -1,0 +1,79 @@
+{
+  "id": "3532254",
+  "name": "好客房东",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1082",
+      "name": "电视机",
+      "font_class": "dianshiji",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "59492",
+      "name": "wifi",
+      "font_class": "wifi",
+      "unicode": "e6f2",
+      "unicode_decimal": 59122
+    },
+    {
+      "icon_id": "425661",
+      "name": "空调",
+      "font_class": "kongdiao",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "1203945",
+      "name": "fridge",
+      "font_class": "fridge",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
+      "icon_id": "1264641",
+      "name": "好房拓 4.0.0 iconfont 2_热水器",
+      "font_class": "haofangtuo400iconfont2reshuiqi",
+      "unicode": "e6fc",
+      "unicode_decimal": 59132
+    },
+    {
+      "icon_id": "1367319",
+      "name": "煤气天然气",
+      "font_class": "meiqitianranqi",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "2273354",
+      "name": "沙发",
+      "font_class": "shafa",
+      "unicode": "e686",
+      "unicode_decimal": 59014
+    },
+    {
+      "icon_id": "5643631",
+      "name": "衣柜",
+      "font_class": "yigui",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "7666410",
+      "name": "洗衣机",
+      "font_class": "xiyiji",
+      "unicode": "e6c6",
+      "unicode_decimal": 59078
+    },
+    {
+      "icon_id": "13672677",
+      "name": "暖气",
+      "font_class": "nuanqi",
+      "unicode": "e67d",
+      "unicode_decimal": 59005
+    }
+  ]
+}

@@ -7,13 +7,16 @@
       @click-left="onClickLeft"
     />
 
-    <van-form @submit="login">
+    <van-form @submit="subLogin">
       <van-field
         class="form"
         v-model="username"
         name="username"
         placeholder="请输入账号"
-        :rules="[{ pattern, message: '请填写正确账号' }]"
+        :rules="[
+          { required: true, message: '请填写账号' },
+          { pattern: /^[a-zA-Z]\w{4,15}$/, message: '请填写正确账号' }
+        ]"
       />
       <van-field
         v-model="password"
@@ -39,19 +42,43 @@ export default {
   data() {
     return {
       username: '',
-      password: '',
-      pattern: /^[a-zA-Z]\w{4,15}$/
+      password: ''
     }
   },
   methods: {
     onClickLeft() {
       this.$router.back()
     },
-    async login() {
-      const res = await login(this.username, this.password)
-      this.$dialog({ message: `${res.data.description}` })
-      if (res.data.body) {
-        localStorage.setItem('token', res.data.body.token)
+    async subLogin() {
+      this.$toast.loading({
+        message: '加载中...',
+        // loading时,禁止点击页面
+        forbidClick: true
+      })
+
+      try {
+        const res = await login(this.username, this.password)
+        const status = res.data.status
+        const description = res.data.description
+        console.log(res)
+
+        if (res.data.body) {
+          // 本地存储token
+          localStorage.setItem('token', res.data.body.token)
+
+          // vuex存储token
+          this.$store.commit('setUser', res.data.body.token)
+        }
+        // 提示
+        if (status === 200) {
+          this.$toast.success(description)
+          this.$router.push('/profile')
+        } else if (status === 400 || status === 401 || status === 404) {
+          this.$toast.fail(description)
+        }
+      } catch (err) {
+        console.log(err)
+        this.$toast.fail('响应超时，请重试')
       }
     }
   }

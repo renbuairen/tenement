@@ -14,3 +14,22 @@ export const login = (username, password) => {
         data: { username, password }
     })
 }
+
+export const getUserInfo = () => {
+    return request({
+        url: '/user'
+
+    })
+}
+
+export const getFavorateList = () => {
+    return request({
+        url: '/user/favorites'
+    })
+}
+
+export const getToRentList = () => {
+    return request({
+        url: '/user/houses'
+    })
+}

@@ -1,11 +1,36 @@
 <template>
-  <div>
+  <div class="box">
     <div class="pic">
+      <img
+        v-if="isLogin"
+        :src="`http://liufusong.top:8080${userInfo.avatar}`"
+        alt=""
+      />
+      <img v-else src="../profile/img/bg.png" alt="" />
       <div class="My_info__eOYeg">
         <div class="My_myIcon__3cKIV">
+          <!-- 登录头像 -->
           <img src="../profile/img/touxaing.png" alt="" class="avatar" />
         </div>
-        <div class="status">
+        <!-- 登录中 -->
+        <div v-if="isLogin" class="status">
+          <p class="topText" style="margin-bottom: 4px">
+            {{ userInfo.nickname }}
+          </p>
+          <van-button
+            round
+            type="info"
+            size="mini"
+            color="#21b97a"
+            style="height: 20px; width: 50px"
+            @click="outFn"
+            >退出</van-button
+          >
+          <p class="text">编辑个人资料<van-icon name="play" /></p>
+        </div>
+
+        <!-- 非登录 -->
+        <div v-else>
           <p class="topText">游客</p>
           <van-button
             type="info"
@@ -24,10 +49,10 @@
         :border="false"
         gutter="18px"
         icon-size="22px"
-        clickable="true"
+        :clickable="true"
       >
-        <van-grid-item icon="star-o" text="我的收藏" />
-        <van-grid-item icon="wap-home-o" text="我的出租" />
+        <van-grid-item icon="star-o" text="我的收藏" @click="favorateFn" />
+        <van-grid-item icon="wap-home-o" text="我的出租" @click="rentFn" />
         <van-grid-item icon="clock-o" text="看房记录" />
         <van-grid-item icon="debit-pay" text="成为房主" />
         <van-grid-item icon="manager-o" text="个人资料" />
@@ -41,12 +66,72 @@
 </template>
 
 <script>
+import { getUserInfo } from '@/api/user'
 export default {
+  data() {
+    return {
+      userInfo: {}
+    }
+  },
+  created() {
+    this.getUserInfo()
+  },
   methods: {
     clickFn() {
       this.$router.push({
         path: '/login'
       })
+    },
+    favorateFn() {
+      if (this.$store.state.token) {
+        this.$router.push({
+          path: '/favorate'
+        })
+      } else {
+        this.$router.push({
+          path: '/login'
+        })
+      }
+    },
+    rentFn() {
+      if (this.$store.state.token) {
+        this.$router.push({
+          path: '/rent'
+        })
+      } else {
+        this.$router.push({
+          path: '/login'
+        })
+      }
+    },
+    async getUserInfo() {
+      if (this.isLogin) {
+        const { data } = await getUserInfo()
+        if (data.status === 400) {
+          this.$toast.fail('token过期，请重新登录')
+          setTimeout(() => {
+            this.$store.commit('setUser', '')
+          }, 1000)
+        } else {
+          this.userInfo = data.body || {}
+        }
+      }
+    },
+    outFn() {
+      this.$dialog
+        .confirm({
+          title: '提示',
+          message: '是否确定退出？'
+        })
+        .then(() => {
+          this.$store.commit('setUser', '')
+        })
+        .catch(() => {})
+    }
+  },
+  computed: {
+    isLogin() {
+      return !!this.$store.state.token
     }
   }
 }
@@ -56,12 +141,17 @@ export default {
 * {
   box-sizing: border-box;
 }
+.box {
+  margin-bottom: 50px;
+}
 .pic {
   min-height: 300px;
-  background: url('../profile/img/bg.png') no-repeat;
   background-size: contain;
   position: relative;
   margin-bottom: 10px;
+  img {
+    width: 100%;
+  }
 
   .My_info__eOYeg {
     position: absolute;
@@ -106,6 +196,14 @@ export default {
 
   img {
     width: 100%;
+  }
+}
+
+.status {
+  .text {
+    margin-top: 30px;
+    font-size: 12px;
+    color: #bdbdbd;
   }
 }
 </style>
